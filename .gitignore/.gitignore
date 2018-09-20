@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+
+int main()
+{
+char s[1001], inverts[1001];
+int tam, j;
+
+gets(s);
+tam = strlen(s);
+if (tam%2==0)
+{
+	for (j=0 ; j<tam ; j++)
+	{
+		inverts[j]=s[(tam-1)-j];
+	}
+	for (j = 0; j < tam; ++j)
+	{
+		int aux;
+
+		aux=inverts[j];
+		inverts[j]=inverts[j+1];
+		inverts[j+1]=aux;
+	}
+}
+// else
+// {
+// 	inverts[0]=s[0];
+// 	for (j=1; j<tam ; j++)
+// 	{
+// 		inverts[j]=s[tam-j];
+// 	}
+// 	for (j = 1; j < tam; ++j)
+// 	{
+// 		int aux;
+
+// 		aux=inverts[j];
+// 		inverts[j]=inverts[j+1];
+// 		inverts[j+1]=aux;
+// 	}
+// }
+
+puts(inverts);
+
+return 0;
+}
