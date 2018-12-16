@@ -64,14 +64,14 @@ void mergesort(int *v, int in , int fn)
 int main()
 {
 	int *v = (int *) malloc(sizeof(int));
-	int n, i=0; scanf("%d", &n);	
+	int n, i=0;
 	
-	while(n != -1)
+	while(scanf("%d", &n) != EOF)
 	{		
 		v[i] = n;
 		v = (int *) realloc(v, sizeof(int)*(i+2));
 		i++;
-		scanf("%d", &n);
+		
 	}
 	int size = i;
 	mergesort(v, 0, size-1);
