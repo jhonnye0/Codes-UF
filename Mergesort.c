@@ -63,7 +63,7 @@ void mergesort(int *v, int in , int fn)
 
 int main()
 {
-	int *v = NULL; v = (int *) malloc(sizeof(int));
+	int *v = (int *) malloc(sizeof(int));
 	int n, i=0; scanf("%d", &n);	
 	
 	while(n != -1)
