@@ -1,8 +1,16 @@
 #include <stdio.h>
 
-int div_2(int x) // generic function
+int prime(int x) // generic function
 {
-	return (x%2) ? 0 : 1;
+    int i, sqr = sqrt(x);
+    
+    if(x == 1 || x == 0) return 0;
+    
+	for(i=2; i<=sqr; i++)
+	{
+	    if(x%i == 0) return 0;
+	}
+	return 1;
 }
 
 int *filter(int (*f)(int x), int *v, int size, int *qt)
@@ -33,7 +41,7 @@ int main()
 		i++;
 		v = (int *) realloc(v, sizeof(int)*(i+1));
 	}
-	int *a = filter(div_2, v, i, &size);
+	int *a = filter(prime, v, i, &size);
 
 	for (i = 0; i < size; ++i)
 	{
