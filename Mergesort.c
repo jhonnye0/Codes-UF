@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <limits.h>
+#include <stdlib.h>
 
 void merge(int *v, int in, int fn, int mid)
 {
