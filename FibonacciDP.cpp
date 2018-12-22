@@ -1,5 +1,5 @@
 // fib DP
-#include <bits/stdc++>
+#include <bits/stdc++.h>
 
 #define MAX 1000000
 
@@ -18,14 +18,14 @@ int fib(int x)
 
 int main()
 {
-	cin >> n; // scaneio
-
-	memset(dp, -1, sizeof(dp)); //faço todos iguais a -1
-
-	dp[0] = 0; // caso base
-	dp[1] = 1;
-
-	cout << fib(n) << endl; // imprimo o valor
-
+	while(cin >> n) // scaneio
+    {
+    	memset(dp, -1, sizeof(dp)); //faço todos iguais a -1
+    
+    	dp[0] = 0; // caso base
+    	dp[1] = 1;
+    
+    	cout << fib(n) << endl; // imprimo o valor
+    }
 	return 0;
 }
