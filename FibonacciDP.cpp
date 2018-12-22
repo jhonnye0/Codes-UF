@@ -19,13 +19,13 @@ int fib(int x)
 int main()
 {
 	while(cin >> n) // scaneio
-    {
-    	memset(dp, -1, sizeof(dp)); //faço todos iguais a -1
+    	{
+    		memset(dp, -1, sizeof(dp)); //faço todos iguais a -1
     
-    	dp[0] = 0; // caso base
-    	dp[1] = 1;
+    		dp[0] = 0; // caso base
+    		dp[1] = 1;
     
-    	cout << fib(n) << endl; // imprimo o valor
-    }
+    		cout << fib(n) << endl; // imprimo o valor
+   	}
 	return 0;
 }
