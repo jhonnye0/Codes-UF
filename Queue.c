@@ -16,12 +16,26 @@ queue *create_queue()
 {
 	queue *new_queue = (queue *) malloc(sizeof(queue));
 	new_queue->head = NULL;
+	new_queue->tail = NULL;
 	return new_queue;
 }
 
 int is_empty(queue *queue)
 {
     return(queue->head == NULL);
+}
+
+void free_queue(queue *queue)
+{
+	node *current = queue->head;
+	while(current != NULL)
+	{
+		queue->head = queue->head->next;
+		free(current);
+		current = queue->head;
+	}
+
+	free(queue);
 }
 
 void enqueue(queue *queue, int item)
@@ -62,7 +76,11 @@ int main()
 	{
 		enqueue(queue, item);
 	}
-    dequeue(queue);
+    while(!is_empty(queue))
+    {
+        dequeue(queue);
+    }
     
+    free_queue(queue);
 	return 0;
 }
