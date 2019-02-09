@@ -79,6 +79,7 @@ void free_stack(stack *stack)
 		free(current);
 		current = stack->top;
 	}	
+	free(stack);
 }
 
 int main()
