@@ -23,42 +23,98 @@ stack *create_stack()
 
 node *catch_list()
 {
-	int item, i=1;
+	int item;
 	char c;
+	node *tail = NULL;
+	node *head = NULL;
 			
-	while(i)
+	while(1)
 	{
+		scanf("%d%c", &item, &c);
+		node *new_node = (node *) malloc(sizeof(node));
+		new_node->item = item;
+		new_node->down = NULL;
+		new_node->next = NULL;
 
-	    scanf("%d%c", &item, &c);
-	    printf("%d\n", item);
+		if(head == NULL)
+		{
+			head = new_node;
+		 	tail = head;
+		}
+		else
+		{
+		 	tail->next = new_node;
+		 	tail = new_node;
+		}
 	    if(c == '\n') break;			    			    
+	}
+	return head;
+}
+
+void push(stack *stack, node *new_list)
+{
+	new_list->down = stack->top;
+	stack->top = new_list;
+}
+
+int is_empty(stack *stack)
+{
+	return (stack->top == NULL);
+}
+
+void pop(stack *stack)
+{
+	if(is_empty(stack))
+	{
+		printf("EMPTY STACK\n");
+		return;
+	}
+	else
+	{
+		node *current = stack->top;
+		stack->top = stack->top->down;
+		print__free_list(current);
+	}
+	return;
+}
+
+void print__free_list(node *list)
+{	
+	while(list != NULL)
+	{
+		node *current = list;
+		if(current->next != NULL)
+		{
+			printf("%d ", current->item);
+		} else {
+			printf("%d\n", current->item);
+			}
+		free(current);
+		list = list->next;
 	}
 }
 
-int main()
+void main()
 {
 	stack *stack = create_stack();
 	while(1)
 	{
 		char op[10];
 		memset(op, 0, sizeof(op));
-		scanf("%s", op);
 		
-		if(strlen(op) == 0)
+		if(scanf("%s", op) == EOF)
 		{   
 		    free(stack);
-		    return 0;
+		    return;
 		}
-
 		if(!strcmp(op, "PUSH"))
-		{
-			puts(op);			
-		 	//node *new_list = catch_list();
-		 	//stack = push(stack, )
+		{			
+		 	node *new_list = catch_list();
+		 	push(stack, new_list);
 		}
 		else
 		{
-			puts(op);
+			pop(stack);			
 		}
 	}
 }
