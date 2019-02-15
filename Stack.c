@@ -23,7 +23,7 @@ stack *create_stack()
 
 node *catch_list()
 {
-	int item, i=1;
+	int item, i=3;
 	char c;
 	node *tail = NULL;
 	node *head = NULL;
@@ -39,12 +39,12 @@ node *catch_list()
 		if(head == NULL)
 		{
 			head = new_node;
-			tail = head;
+		 	tail = head;
 		}
 		else
 		{
-			tail->next = new_node;
-			tail = new_node;
+		 	tail->next = new_node;
+		 	tail = new_node;
 		}
 	    if(c == '\n') break;			    			    
 	}
@@ -52,7 +52,7 @@ node *catch_list()
 	return head;
 }
 
-void *push(stack *stack, node *new_list)
+void push(stack *stack, node *new_list)
 {
 	new_list->down = stack->top;
 	stack->top = new_list;
@@ -74,6 +74,19 @@ void pop(stack *stack)
 
 }
 
+void print__free_list(node *list)
+{
+	node *current = list;;
+	while(current != NULL)
+	{
+		list = list->next;
+		printf("%d ", current->item);
+		free(current);
+		current = list;
+	}
+	printf("\n");
+}
+
 int main()
 {
 	stack *stack = create_stack();
@@ -84,19 +97,20 @@ int main()
 		
 		if(scanf("%s", op) == EOF)
 		{   
-		    free_stack(stack);
+		    //free_stack(stack);
 		    return 0;
 		}
-		puts(op);
+		//puts(op);
 		if(!strcmp(op, "PUSH"))
 		{			
 		 	node *new_list = catch_list();
-		 	stack = push(stack, new_list);
+		 	print__free_list(new_list);
+		 	//stack = push(stack, new_list);
 		}
 		else
 		{
 			// TO DO...
-			pop(stack);			
+			//pop(stack);			
 		}
 	}
 }
