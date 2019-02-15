@@ -21,6 +21,16 @@ stack *create_stack()
 	return new_stack;
 }
 
+void free_stack(stack *stack)
+{
+	while(stack->top != NULL)
+	{
+		node *current = stack->top;
+		stack->top = stack->top->down;
+		printf_free_list(current);
+	}
+}
+
 node *catch_list()
 {
 	int item;
@@ -104,7 +114,7 @@ void main()
 		
 		if(scanf("%s", op) == EOF)
 		{   
-		    free(stack);
+		    free_stack(stack);
 		    return;
 		}
 		if(!strcmp(op, "PUSH"))
