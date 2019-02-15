@@ -1,61 +1,29 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 typedef struct node
 {
 	int item;
 	struct node *next;
-	struct node *down;
 }node;
 
 typedef struct stack
 {
-	node *top;
+	struct node *top;
 }stack;
 
 stack *create_stack()
 {
-	stack *new_stack = (stack*) malloc(sizeof(stack));
+	stack *new_stack = (stack *) malloc(sizeof(stack));
 	new_stack->top = NULL;
 	return new_stack;
 }
 
-node *catch_list()
+void push(stack *stack, int item)
 {
-	int item, i=3;
-	char c;
-	node *tail = NULL;
-	node *head = NULL;
-			
-	while(1)
-	{
-		scanf("%d%c", &item, &c);
-		node *new_node = (node *) malloc(sizeof(node));
-		new_node->item = item;
-		new_node->down = NULL;
-		new_node->next = NULL;
-
-		if(head == NULL)
-		{
-			head = new_node;
-		 	tail = head;
-		}
-		else
-		{
-		 	tail->next = new_node;
-		 	tail = new_node;
-		}
-	    if(c == '\n') break;			    			    
-	}
-
-	return head;
-}
-
-void push(stack *stack, node *new_list)
-{
-	new_list->down = stack->top;
-	stack->top = new_list;
+	node *new_top = (node *) malloc(sizeof(node));
+	new_top->item = item;
+	new_top->next = stack->top;
+	stack->top = new_top;
 }
 
 int is_empty(stack *stack)
@@ -63,54 +31,66 @@ int is_empty(stack *stack)
 	return (stack->top == NULL);
 }
 
-void pop(stack *stack)
+int pop(stack *stack)
 {
 	if(is_empty(stack))
 	{
-		printf("EMPTY STACK\n");
-		return;
+		printf("Stack underflow\n");
+		return -1;
 	}
-
-
+	else
+	{
+		node *current = stack->top;
+		stack->top = stack->top->next;
+		current->next = NULL;
+		int x = current->item;
+		free(current);
+		return x;
+	}
 }
 
-void print__free_list(node *list)
+int peek(stack *stack)
 {
-	node *current = list;;
+	if(is_empty(stack))
+	{
+		printf("Stack underflow\n");
+		return -1;
+	}
+	else return stack->top->item;
+}
+
+void print_stack(stack *stack)
+{
+	node *current = stack->top;
 	while(current != NULL)
 	{
-		list = list->next;
-		printf("%d ", current->item);
-		free(current);
-		current = list;
+		printf("%d\n", current->item);
+		current = current->next;
 	}
-	printf("\n");
+}
+
+void free_stack(stack *stack)
+{
+	node *current = stack->top;
+
+	while(current != NULL)
+	{
+		stack->top = stack->top->next;
+		free(current);
+		current = stack->top;
+	}	
 }
 
 int main()
 {
-	stack *stack = create_stack();
-	while(1)
+	stack *st = create_stack();
+	int item;
+	while(scanf("%d", &item) != EOF)
 	{
-		char op[10];
-		memset(op, 0, sizeof(op));
-		
-		if(scanf("%s", op) == EOF)
-		{   
-		    //free_stack(stack);
-		    return 0;
-		}
-		//puts(op);
-		if(!strcmp(op, "PUSH"))
-		{			
-		 	node *new_list = catch_list();
-		 	print__free_list(new_list);
-		 	//stack = push(stack, new_list);
-		}
-		else
-		{
-			// TO DO...
-			//pop(stack);			
-		}
+		push(st, item);
 	}
+	print_stack(st);
+
+	free_stack(st);
+	return 0;
 }
