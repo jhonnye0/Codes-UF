@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-const int MAX = 10;
+const int MAX = 5;
 
 typedef struct element
 {
@@ -39,6 +39,26 @@ element *create_element(int key, int value)
 	return new_element;
 }
 
+void print_hash(hash *hashtable)
+{
+	int i;
+	for (i = 0; i < MAX; ++i)
+	{
+		if(hashtable->table[i] != NULL)
+		{
+			printf("I: %d\n", i);
+			element *current = hashtable->table[i];
+			while(current != NULL)
+			{
+				(current->next != NULL )? 
+				printf("%d ", current->value):
+				printf("%d\n", current->value);
+				current = current->next;
+			}
+		}
+	}
+}
+
 void destruct(hash* hash)
 {
 	int i;
@@ -62,7 +82,7 @@ void destruct(hash* hash)
 
 int hashing(int key)
 {
-	return (key*7) % MAX;
+	return (key)*11 % MAX;
 }
 
 void put(hash *hashtable, int key, int value)
@@ -97,6 +117,56 @@ void put(hash *hashtable, int key, int value)
 	}
 }
 
+int get(hash *hashtable, int key)
+{
+	int k = hashing(key);
+	if(hashtable->table[k] != NULL)
+	{
+		element *current = hashtable->table[k];
+		while(current != NULL)
+		{
+			if (current->key == key)
+			{
+				return current->value;
+			}
+			current = current->next;
+		}
+	}
+	return -1;
+}
+
+void remove_element(hash *hashtable, int key)
+{
+	int k = hashing(key);
+
+	if(hashtable->table[k] != NULL)
+	{
+		element *previous = NULL;
+		element *current = hashtable->table[k];
+
+		if(current->key == key)
+		{
+			hashtable->table[k] = hashtable->table[k]->next;
+		}
+		else
+		{
+			while(current != NULL)
+			{
+				if (current->key == key)
+				{
+					break;
+				}
+				previous = current;
+				current = current->next;
+			}
+			previous->next = current->next;
+		}
+
+		free(current);
+		return;
+	}
+}
+
 int main()
 {
 	hash *hashtable = create_hash();
@@ -107,20 +177,7 @@ int main()
 		int value, key; scanf("%d%d", &value, &key);
 		put(hashtable, key, value);
 	}
-	for (i = 0; i < MAX; ++i)
-	{
-		if(hashtable->table[i] != NULL)
-		{
-			printf("I: %d\n", i);
-			element *current = hashtable->table[i];
-			while(current != NULL)
-			{
-				(current->next != NULL )? 
-				printf("%d ", current->value):
-				printf("%d\n", current->value);
-				current = current->next;
-			}
-		}
-	}
+	remove_element(hashtable, 2);
+	print_hash(hashtable);
 	destruct(hashtable);
 }
