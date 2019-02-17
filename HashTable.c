@@ -50,7 +50,7 @@ void print_hash(hash *hashtable)
 			element *current = hashtable->table[i];
 			while(current != NULL)
 			{
-				(current->next != NULL )? 
+				(current->next != NULL)? 
 				printf("%d ", current->value):
 				printf("%d\n", current->value);
 				current = current->next;
@@ -82,7 +82,7 @@ void destruct(hash* hash)
 
 int hashing(int key)
 {
-	return (key)*11 % MAX;
+	return (key) % MAX;
 }
 
 void put(hash *hashtable, int key, int value)
@@ -138,18 +138,16 @@ int get(hash *hashtable, int key)
 void remove_element(hash *hashtable, int key)
 {
 	int k = hashing(key);
-
 	if(hashtable->table[k] != NULL)
 	{
-		element *previous = NULL;
 		element *current = hashtable->table[k];
-
 		if(current->key == key)
 		{
 			hashtable->table[k] = hashtable->table[k]->next;
 		}
 		else
 		{
+			element *previous = NULL;
 			while(current != NULL)
 			{
 				if (current->key == key)
@@ -159,9 +157,11 @@ void remove_element(hash *hashtable, int key)
 				previous = current;
 				current = current->next;
 			}
-			previous->next = current->next;
+			if(current != NULL)
+			{
+			    previous->next = current->next;
+			}
 		}
-
 		free(current);
 		return;
 	}
@@ -177,7 +177,8 @@ int main()
 		int value, key; scanf("%d%d", &value, &key);
 		put(hashtable, key, value);
 	}
-	remove_element(hashtable, 2);
+	printf("Get: %d\n", get(hashtable, 2));
+	remove_element(hashtable, 7);
 	print_hash(hashtable);
 	destruct(hashtable);
 }
