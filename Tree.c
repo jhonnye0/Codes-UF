@@ -1,6 +1,7 @@
-// INCOMPLETE
 #include <stdio.h>
 #define MAX 10
+
+// INCOMPLETE........
 
 typedef struct node
 {
@@ -79,37 +80,60 @@ void add_node(tree *tree, int source, node *list)
 
 void dfs(tree *tree, int source)
 {
-	// INCOMPLETE
 	if(source == -1) return;
-	int i;
-	tree->visited[source] = 1;
 	printf("%d\n", source);
 
-	node *adj_list = tree->adj[source];
-	while(adj_list != NULL)
+	node *adj = tree->adj[source];
+	while(adj != NULL)
 	{
-		if(!tree->visited[adj_list->item])
-		{
-			tree->visited[adj_list->item] = 1;
-			dfs(tree, tree->adj[adj_list->item]->item);
-		}
-		adj_list = adj_list->next;
+		dfs(tree, adj->item);
+		adj = adj->next;
 	}
 }
 
 void print_post_order(tree *tree, int source)
 {
-	// INCOMPLETE
 	if(source == -1) return;
 	node *adj = tree->adj[source];
-
+	
 	while(adj != NULL)
 	{
-		print_post_order(tree, adj->item);
+		print_post_order(tree, adj->item);	    
 		adj = adj->next;		
 	}
-	printf("SOURCE %d\n%d\n", source, adj->item) ;
-	
+	printf("SOURCE: %d\n", source);		
+}
+//----------------
+void print_pre_order(tree *tree, int source)
+{
+	//---------------- INCOMPLETE;
+	if(source == -1) return;
+	node *adj = tree->adj[source];
+	printf("SOURCE: %d\n", source);	
+	while(adj != NULL)
+	{
+		print_post_order(tree, adj->item);	    
+		adj = adj->next;		
+	}	
+}
+
+void printa(tree *tree)
+{
+	int i;
+	node *current;
+	for (i = 0; i < MAX; ++i)
+	{
+		if(tree->adj[i] != NULL)
+		{
+		    printf("I: %d\n", i);
+			current = tree->adj[i];
+			while(current != NULL)
+			{
+				printf("%d\n", current->item);
+				current = current->next;
+			}
+		} 
+	}
 }
 
 int main()
@@ -117,14 +141,18 @@ int main()
 	tree *tree = create_tree();
 	int n, i; scanf("%d", &n);
 
+	// Scan n nodes, each node have a qt of adj-nodes to put in a list..
+	// example 1 3 2 3 4
+	// node 1 have 3 adj-nodes: 2, 3 and 4;
 	while(n--)
 	{
 		int source, qt;
 		scanf("%d%d", &source, &qt);
 		add_node(tree, source, create_list(qt));
 	}
-	printa(tree)
+	printa(tree);
 	print_post_order(tree, 1);
+	dfs(tree, 1);
 	destruct(tree);
 	return 0;
 }
