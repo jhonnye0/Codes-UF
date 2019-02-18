@@ -79,6 +79,7 @@ void add_node(tree *tree, int source, node *list)
 
 void dfs(tree *tree, int source)
 {
+	// INCOMPLETE
 	if(source == -1) return;
 	int i;
 	tree->visited[source] = 1;
@@ -98,6 +99,7 @@ void dfs(tree *tree, int source)
 
 void print_post_order(tree *tree, int source)
 {
+	// INCOMPLETE
 	if(source == -1) return;
 	node *adj = tree->adj[source];
 
