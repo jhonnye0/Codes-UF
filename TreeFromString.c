@@ -99,11 +99,9 @@ int findIndex(char str[], int in, int fn)
 	if(in > fn)
 		return -1;
 
-	if(str[in] == ' ') in++;
-	
 	stack* stack = create_stack();
-
-	for (i = in; i <= fn; ++i)
+	
+	for (i = in; i <= fn; i++)
 	{
 		if(str[i] == '(')
 		{
@@ -117,6 +115,7 @@ int findIndex(char str[], int in, int fn)
 			}
 			if (is_empty(stack))
 			{
+				printf("\n");
 				return i;
 			}
 		}
@@ -129,12 +128,11 @@ b_tree *treeFromString(char str[], int in, int fn)
 	if(in > fn)
 		return NULL;
 
-	int num, x, index = -1; num = x = 1;
-	char aux[10];
+	int num, x, index = -1; num = x = 0;
+	char aux[10]; memset(aux, 0, sizeof(char)*10);
 
-	while(in + x <= in && str[in + x] == '(')
+	while(str[in+x] != '(')
 	{
-		printf("%c\n", str[in + x]);
 		aux[x] = str[in+x];
 		x++;
 	}
@@ -147,7 +145,7 @@ b_tree *treeFromString(char str[], int in, int fn)
 	}
 	if (index != -1)
 	{
-		root->left = treeFromString(str, in+x, index-1);
+		root->left = treeFromString(str, in+x+1, index-1);
 		root->right = treeFromString(str, index+2, fn-1);
 	}
 	return root;
@@ -155,11 +153,13 @@ b_tree *treeFromString(char str[], int in, int fn)
 
 int main()
 {
-	char string[1000]; getchar();
+	char string[50] = "(5(4(11(7()())(2()()))())(8(13()())(4()(1()()))))"; 
+	// get the first parenthesis..
+	getchar();
 	gets(string); int lenght = strlen(string);
+	// send the string without the last parenthesis..
 	b_tree *tree = treeFromString(string, 0 , lenght-2);
-
-	//preOrder(tree);
+	preOrder(tree);
 	free_tree(tree);
 	return 0;
 }
