@@ -4,6 +4,7 @@
 typedef struct binary_tree
 {
 	int item;
+	int qt_nodes;
 	struct binary_tree *left;
 	struct binary_tree *right;
 }b_tree;
@@ -23,6 +24,7 @@ b_tree *create_b_tree(int item)
 {
 	b_tree *new_tree = (b_tree *) malloc(sizeof(b_tree));
 	new_tree->item = item;
+	new_tree->qt_nodes = 0;
 	new_tree->left = new_tree->right = NULL;
 	return new_tree; 
 }
@@ -84,12 +86,28 @@ int peek(stack *stack)
 	else return stack->top->item;
 }
 
-void preOrder(b_tree* node) 
+void remove_space(char string[])
+{
+	int i, j; int lenght = strlen(string);
+	char string2[1000];
+	for (j=0, i = 0; i < lenght; ++i)
+	{	
+		if(string[i] != ' ')
+		{
+			string2[j] = string[i];
+			j++;
+		}		
+	}
+	strcpy(string, string2);
+}
+
+void preOrder(b_tree* node)
 { 
     if (node == NULL) 
         return; 
-    printf("%d ", node->item); 
+    printf("%d ", node->item);    
     preOrder(node->left); 
+     
     preOrder(node->right); 
 } 
 
@@ -99,10 +117,13 @@ int findIndex(char str[], int in, int fn)
 	if(in > fn)
 		return -1;
 
+	printf("IN: %c\n", str[in]);
 	stack* stack = create_stack();
-	
+	while(str[in] != '(') in++;
+
 	for (i = in; i <= fn; i++)
 	{
+		printf("%c", str[i]);
 		if(str[i] == '(')
 		{
 			push(stack , str[i]);
@@ -120,6 +141,7 @@ int findIndex(char str[], int in, int fn)
 			}
 		}
 	}
+	printf("\n");
 	return -1;
 }
 
@@ -138,6 +160,7 @@ b_tree *treeFromString(char str[], int in, int fn)
 	}
 	num = atoi(aux);
 	b_tree *root = create_b_tree(num);
+	root->qt_nodes++;
 
 	if(in+x <= fn && str[in+x] == '(')
 	{
@@ -153,13 +176,13 @@ b_tree *treeFromString(char str[], int in, int fn)
 
 int main()
 {
-	char string[50] = "(5(4(11(7()())(2()()))())(8(13()())(4()(1()()))))"; 
-	// get the first parenthesis..
 	getchar();
-	gets(string); int lenght = strlen(string);
-	// send the string without the last parenthesis..
-	b_tree *tree = treeFromString(string, 0 , lenght-2);
+	char string[1000]; gets(string);
+	remove_space(string);
+	b_tree *tree = treeFromString(string, 0 , strlen(string)-2);
+
 	preOrder(tree);
-	free_tree(tree);
+
+	int i;	free_tree(tree);
 	return 0;
 }
