@@ -22,16 +22,12 @@ b_tree *create_empty_b()
 
 b_tree *insert(b_tree *tree, int item)
 {	 
-	if(tree == NULL)
-	{
+	if(tree == NULL){
 		tree = create_b_tree(item); 
-	}
-	else
-	{
+	}else{
 		if(item >= tree->item){
 			tree->right = insert(tree->right, item);
-		}
-		else{
+		}else{
 			tree->left = insert(tree->left, item);
 		}
 	}
@@ -50,67 +46,49 @@ void free_tree(b_tree *tree)
 
 void printOrder(b_tree* tree)
 { 
-	printf("(");
-	if (tree != NULL)
-	{
+	if(tree == NULL) return;
+	else{
 		printf(" %d ", tree->item);
 		printOrder(tree->left);
 		printOrder(tree->right);
 	}
-	printf(") ");
 } 
 
-b_tree *remove_atual(b_tree *node)
+b_tree *minTree(b_tree *node)
 {
-	b_tree *ant, *aux = NULL;
-	if(node->left == NULL)
-	{
-		aux = node->right;
-		free(node);
-	return aux;
+	b_tree* current = node;
+	while(current->left != NULL){
+		current = current->left;
 	}
-	ant = node;
-	aux = node->left;
-	while(aux->right != NULL){
-		ant = aux;
-		aux = aux->right;
-	}
-
-	if(ant != node){
-		ant->right = aux->left;
-		aux->left = node->left;
-	}
-	aux->right = node->right;
-	free(node);
-	return aux;
+	return current;
 }
 
-void remove_node(b_tree *tree, int item)
+b_tree *remove_node(b_tree *tree, int item)
 {
-	if(tree == NULL) return;
-
-	b_tree *ant = NULL;
-	b_tree *atual = tree;
-
-	while(atual != NULL){
-		if(item == atual->item){
-			if(atual == tree){
-				tree = remove_atual(atual);
-			}else{
-				if(ant->right == atual){
-					ant->right = remove_atual(atual);
-				}else{
-					ant->left = remove_atual(atual);
-				}
-			}	
-		}
-		ant = atual;	
-		if(item >= atual->item){
-			atual = atual->right;
-		}else{
-			atual = atual->left;
-		}
+	if(tree == NULL){
+		return tree;
 	} 
+
+	if(item < tree->item){
+		tree->left = remove_node(tree->left, item);
+	}else if(item > tree->item){
+		tree->right = remove_node(tree->right, item);
+	}else{
+		b_tree *temp;
+		if(tree->left == NULL){
+			temp = tree->right;
+			free(tree);
+			return temp;
+		}else if(tree->right == NULL){
+			temp = tree->left;
+			free(tree);
+			return temp;
+		}
+		temp = minTree(tree->right);
+		tree->item = temp->item;
+		tree->right = remove_node(tree->right, temp->item);
+	}
+	return tree;
 }
 int main()
 {
