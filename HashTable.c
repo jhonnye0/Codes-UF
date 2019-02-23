@@ -1,3 +1,5 @@
+//BY EXTERIOR CHAINING
+
 #include <stdio.h>
 #include <stdlib.h>
 const int MAX = 5;
