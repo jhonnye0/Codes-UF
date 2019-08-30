@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void quick(int *v, int in, int fn)
+void quickSort(int *v, int in, int fn)
 {
 	if((fn-in)<=1) return;
 	
@@ -24,8 +24,8 @@ void quick(int *v, int in, int fn)
 			b--;
 		}
 	}
-	quick(v, in, b+1);
-	quick(v, a, fn);
+	quickSort(v, in, b+1);
+	quickSort(v, a, fn);
 }
 
 int main()
@@ -33,6 +33,7 @@ int main()
 	int n=0, i;
 	int *v = (int *) malloc(sizeof(int));
 
+	// Digite todos os números e ao final digite -1
 	scanf("%d", &n);
 	for (i = 0; n != -1 ; ++i)
 	{
@@ -42,12 +43,14 @@ int main()
 	}
 	int size = i;
 
-	quick(v, 0, size);
+	quickSort(v, 0, size);
 
 	for (i = 0; i < size; ++i)
 	{
 		printf("%d\n", v[i]);
 	}
+	
+	free(v);
 
 	return 0;
 }
