@@ -5,7 +5,7 @@ void quickSort(int *v, int in, int fn)
 {
 	if((fn-in)<=1) return;
 	
-	int a,b,pivot,aux;
+	int a,b,pivot;
 	a = in;
 	b = fn-1;
 	pivot = v[(in + fn)/2];
