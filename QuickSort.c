@@ -47,7 +47,7 @@ int main()
 
 	for (i = 0; i < size; ++i)
 	{
-		printf("%d\n", v[i]);
+		printf("%d ", v[i]);
 	}
 	
 	free(v);
